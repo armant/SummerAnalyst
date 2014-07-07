@@ -1,0 +1,18 @@
+{% for key, values in contacts_dict.items %}
+  
+  {{ key }} {{ key.get_app_status_display }} Deadline: {{ key.deadline }}
+    Remind on {{ key.reminder_date }}<br>
+  Remind every {{ key.reminder_recurrence_number}}
+    {{ key.get_reminder_recurrence_type_display }} 
+  
+  {% for contact in values %}
+    <p>
+      {{ contact }} {{ contact.position }}
+      Last contacted on {{ contact.last_contact_date }}
+      Remind every {{ contact.reminder_recurrence_number}}
+      {{ contact.get_reminder_recurrence_type_display }}
+      Remind on {{ contact.reminder_date }}
+    </p>
+  {% endfor %}
+
+{% endfor %}
