@@ -46,6 +46,7 @@ def edit_contact_position(request):
     required_contact.save()
     return HttpResponse(new_contact_position)
 
+
 @login_required
 def edit_firm_status(request):
     new_app_status = request.POST.get('value')
@@ -57,3 +58,26 @@ def edit_firm_status(request):
             break
     required_firm.save()
     return HttpResponse(new_app_status)
+
+
+@login_required
+def edit_firm_recurring_type(request):
+    new_type = request.POST.get('value')
+    firm_id = request.POST.get('pk')
+    required_firm = Firm.objects.get(id=firm_id)
+    for symbol, name in Firm.PERIODS:
+        if name == new_type:
+            required_firm.reminder_recurrence_type = symbol
+            break
+    required_firm.save()
+    return HttpResponse(new_type)
+
+
+@login_required
+def edit_firm_deadline(request):
+    new_firm_deadline = request.POST.get('value')
+    firm_id = request.POST.get('pk')
+    required_firm = Firm.objects.get(pk=firm_id)
+    required_firm.deadline = new_firm_deadline
+    required_firm.save()
+    return HttpResponse(new_firm_deadline)

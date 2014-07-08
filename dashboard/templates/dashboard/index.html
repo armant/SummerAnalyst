@@ -27,11 +27,19 @@
       data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
       {{ firm.get_app_status_display }}</a>
 
-  {{ firm.get_app_status_display }}
-  Deadline: {{ firm.deadline }} Remind on {{ firm.reminder_date }}<br>
+  Deadline: <a href="#" class="firm-deadline" data-type="date"
+      data-pk="{{ firm.id }}" data-url="edit-firm-deadline/"
+      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{ firm.deadline }}
+      </a>
+      
+  Remind on {{ firm.reminder_date }}<br>
   For contacts in this firm/group, remind every
     {{ firm.reminder_recurrence_number}}
-    {{ firm.get_reminder_recurrence_type_display }} 
+
+  <a href="#" class="firm-recurring-type" data-type="select"
+      data-pk="{{ firm.id }}" data-url="edit-firm-recurring-type/"
+      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+      {{ firm.get_reminder_recurrence_type_display }}</a>     
   
   {% for contact in contacts_dict|access_dict_value:firm %}
     <p>
