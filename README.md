@@ -5,4 +5,4 @@ A personal contact+time management app for summer internship applicants.
 
 Tech: Python, Django, jQuery
 
-Plugins: <a href="http://www.appelsiini.net/projects/jeditable" target="_blank">Jeditable</a>.
+Plugins: <a href="http://vitalets.github.io/x-editable/" target="_blank">X-editable</a>.
