@@ -22,6 +22,11 @@
       data-url="edit-firm-name/"
       data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{ firm }}</a>
   
+  <a href="#" class="firm-status" data-type="select" data-pk="{{ firm.id }}" 
+      data-url="edit-firm-status/"
+      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+      {{ firm.get_app_status_display }}</a>
+
   {{ firm.get_app_status_display }}
   Deadline: {{ firm.deadline }} Remind on {{ firm.reminder_date }}<br>
   For contacts in this firm/group, remind every

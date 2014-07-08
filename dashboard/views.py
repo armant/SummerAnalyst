@@ -47,10 +47,13 @@ def edit_contact_position(request):
     return HttpResponse(new_contact_position)
 
 @login_required
-def edit_app_status(request):
+def edit_firm_status(request):
     new_app_status = request.POST.get('value')
-    firm_id = request.POST.get('id')
-    required_firm = Firm.objects.get(id=contact_id)
-    required_firm.app_status = new_app_status
+    firm_id = request.POST.get('pk')
+    required_firm = Firm.objects.get(id=firm_id)
+    for symbol, name in Firm.STATUSES:
+        if name == new_app_status:
+            required_firm.app_status = symbol
+            break
     required_firm.save()
     return HttpResponse(new_app_status)

@@ -13,6 +13,6 @@ urlpatterns = patterns('',
             name='edit_contact_name'),
     url(r'edit-contact-position/$', views.edit_contact_position,
             name='edit_contact_position'),
-    url(r'edit-app-status/$', views.edit_app_status,
-            name='edit_app_status'),
+    url(r'edit-firm-status/$', views.edit_firm_status,
+            name='edit_firm_status'),
 )
