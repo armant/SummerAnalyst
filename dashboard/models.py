@@ -46,3 +46,9 @@ class Contact(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User)
+    reminder_days = models.PositiveSmallIntegerField(default=1, blank=True,
+            null=True)

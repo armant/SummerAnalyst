@@ -1,13 +1,22 @@
-{% for key, values in contacts_dict.items %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.jeditable.js"></script>
+
+{% load dashboard_extras %}
+
+
+{% for firm in firms_list %}
   
-  {{ key }} {{ key.get_app_status_display }} Deadline: {{ key.deadline }}
-    Remind on {{ key.reminder_date }}<br>
-  Remind every {{ key.reminder_recurrence_number}}
-    {{ key.get_reminder_recurrence_type_display }} 
+  <div class="edit firm-name" id="{{ firm.id }}">{{ firm }}</div>
+  <div class="editable app-status" id="{{ firm.id }}">{{ firm.get_app_status_display }}</div>
+  Deadline: {{ firm.deadline }} Remind on {{ firm.reminder_date }}<br>
+  For contacts in this firm/group, remind every
+    {{ firm.reminder_recurrence_number}}
+    {{ firm.get_reminder_recurrence_type_display }} 
   
-  {% for contact in values %}
+  {% for contact in contacts_dict|access_dict_value:firm %}
     <p>
-      {{ contact }} {{ contact.position }}
+      <div class="edit contact-name" id="{{ contact.id }}">{{ contact }}</div>
+      <div class="edit contact-position" id="{{ contact.id }}">{{ contact.position }}</div>
       Last contacted on {{ contact.last_contact_date }}
       Remind every {{ contact.reminder_recurrence_number}}
       {{ contact.get_reminder_recurrence_type_display }}
@@ -16,3 +25,6 @@
   {% endfor %}
 
 {% endfor %}
+
+<script>var CSRF = "{{ csrf_token }}"</script>
+<script src="{{ STATIC_URL }}js/jeditable-execute.js"></script>
