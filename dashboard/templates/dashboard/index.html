@@ -1,13 +1,28 @@
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="{{ STATIC_URL }}js/jquery.jeditable.js"></script>
+<!-- Bootstrap & jQuery -->
+<link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" 
+    rel="stylesheet">
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script> 
+<script
+    src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js">
+    </script>
+<!-- X-editable -->
+<link 
+    href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap-editable/css/bootstrap-editable.css" 
+    rel="stylesheet"/>
+<script
+    src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap-editable/js/bootstrap-editable.min.js">
+    </script>
 
 {% load dashboard_extras %}
 
 
 {% for firm in firms_list %}
   
-  <div class="edit firm-name" id="{{ firm.id }}">{{ firm }}</div>
-  <div class="editable app-status" id="{{ firm.id }}">{{ firm.get_app_status_display }}</div>
+  <a href="#" class="firm-name" data-type="text" data-pk="{{ firm.id }}" 
+      data-url="edit-firm-name/"
+      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{ firm }}</a>
+  
+  {{ firm.get_app_status_display }}
   Deadline: {{ firm.deadline }} Remind on {{ firm.reminder_date }}<br>
   For contacts in this firm/group, remind every
     {{ firm.reminder_recurrence_number}}
@@ -15,8 +30,17 @@
   
   {% for contact in contacts_dict|access_dict_value:firm %}
     <p>
-      <div class="edit contact-name" id="{{ contact.id }}">{{ contact }}</div>
-      <div class="edit contact-position" id="{{ contact.id }}">{{ contact.position }}</div>
+      
+      <a href="#" class="contact-name" data-type="text"
+          data-pk="{{ contact.id }}" data-url="edit-contact-name/" 
+          data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+          {{ contact }}</a>
+      
+      <a href="#" class="contact-position" data-type="text"
+          data-pk="{{ contact.id }}" data-url="edit-contact-position/" 
+          data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+          {{ contact.position }}</a>
+
       Last contacted on {{ contact.last_contact_date }}
       Remind every {{ contact.reminder_recurrence_number}}
       {{ contact.get_reminder_recurrence_type_display }}
@@ -26,5 +50,4 @@
 
 {% endfor %}
 
-<script>var CSRF = "{{ csrf_token }}"</script>
-<script src="{{ STATIC_URL }}js/jeditable-execute.js"></script>
+<script src="{{ STATIC_URL }}js/xeditable-execute.js"></script>

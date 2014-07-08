@@ -20,8 +20,8 @@ def index(request):
 @login_required
 def edit_firm_name(request):
     new_firm_name = request.POST.get('value')
-    firm_id = request.POST.get('id')
-    required_firm = Firm.objects.get(id=firm_id)
+    firm_id = request.POST.get('pk')
+    required_firm = Firm.objects.get(pk=firm_id)
     required_firm.name = new_firm_name
     required_firm.save()
     return HttpResponse(new_firm_name)
@@ -30,7 +30,7 @@ def edit_firm_name(request):
 @login_required
 def edit_contact_name(request):
     new_contact_name = request.POST.get('value')
-    contact_id = request.POST.get('id')
+    contact_id = request.POST.get('pk')
     required_contact = Contact.objects.get(id=contact_id)
     required_contact.name = new_contact_name
     required_contact.save()
@@ -40,7 +40,7 @@ def edit_contact_name(request):
 @login_required
 def edit_contact_position(request):
     new_contact_position = request.POST.get('value')
-    contact_id = request.POST.get('id')
+    contact_id = request.POST.get('pk')
     required_contact = Contact.objects.get(id=contact_id)
     required_contact.position = new_contact_position
     required_contact.save()
