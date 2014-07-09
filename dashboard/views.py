@@ -78,6 +78,21 @@ def edit_firm_deadline(request):
     new_firm_deadline = request.POST.get('value')
     firm_id = request.POST.get('pk')
     required_firm = Firm.objects.get(pk=firm_id)
-    required_firm.deadline = new_firm_deadline
+    if new_firm_deadline == '':
+        required_firm.deadline = None
+    else:
+        required_firm.deadline = new_firm_deadline
     required_firm.save()
     return HttpResponse(new_firm_deadline)
+
+@login_required
+def edit_firm_remind_date(request):
+    new_firm_remind_date = request.POST.get('value')
+    firm_id = request.POST.get('pk')
+    required_firm = Firm.objects.get(pk=firm_id)
+    if new_firm_remind_date == '':
+        required_firm.reminder_date = None
+    else:
+        required_firm.reminder_date = new_firm_remind_date
+    required_firm.save()
+    return HttpResponse(new_firm_remind_date)

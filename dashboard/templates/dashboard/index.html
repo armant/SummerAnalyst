@@ -18,40 +18,29 @@
 
 {% for firm in firms_list %}
   
-  <a href="#" class="firm-name" data-type="text" data-pk="{{ firm.id }}" 
-      data-url="edit-firm-name/"
-      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{ firm }}</a>
+  <a href="#" class="firm-name" data-pk="{{ firm.id }}">{{ firm }}</a>
   
-  <a href="#" class="firm-status" data-type="select" data-pk="{{ firm.id }}" 
-      data-url="edit-firm-status/"
-      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+  <a href="#" class="firm-status" data-pk="{{ firm.id }}">
       {{ firm.get_app_status_display }}</a>
 
-  Deadline: <a href="#" class="firm-deadline" data-type="date"
-      data-pk="{{ firm.id }}" data-url="edit-firm-deadline/"
-      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">{{ firm.deadline }}
-      </a>
-      
-  Remind on {{ firm.reminder_date }}<br>
-  For contacts in this firm/group, remind every
-    {{ firm.reminder_recurrence_number}}
+  Deadline: <a href="#" class="firm-deadline" data-pk="{{ firm.id }}">
+      {{ firm.deadline|date:"M j, Y" }}</a>
 
-  <a href="#" class="firm-recurring-type" data-type="select"
-      data-pk="{{ firm.id }}" data-url="edit-firm-recurring-type/"
-      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+  Remind on <a href="#" class="firm-remind-date" data-pk="{{ firm.id }}">
+      {{ firm.reminder_date|date:"M j, Y" }}</a><br>
+  
+  For contacts in this firm/group, remind every
+      {{ firm.reminder_recurrence_number}}
+
+  <a href="#" class="firm-recurring-type" data-pk="{{ firm.id }}">
       {{ firm.get_reminder_recurrence_type_display }}</a>     
   
   {% for contact in contacts_dict|access_dict_value:firm %}
     <p>
+      <a href="#" class="contact-name" data-pk="{{ contact.id }}">{{ contact }}
+          </a>
       
-      <a href="#" class="contact-name" data-type="text"
-          data-pk="{{ contact.id }}" data-url="edit-contact-name/" 
-          data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
-          {{ contact }}</a>
-      
-      <a href="#" class="contact-position" data-type="text"
-          data-pk="{{ contact.id }}" data-url="edit-contact-position/" 
-          data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+      <a href="#" class="contact-position" data-pk="{{ contact.id }}">
           {{ contact.position }}</a>
 
       Last contacted on {{ contact.last_contact_date }}
@@ -63,4 +52,5 @@
 
 {% endfor %}
 
+<script>var CSRF = '{{ csrf_token }}'</script>
 <script src="{{ STATIC_URL }}js/xeditable-execute.js"></script>

@@ -19,4 +19,6 @@ urlpatterns = patterns('',
             name='edit_firm_recurring_type'),
     url(r'edit-firm-deadline/$', views.edit_firm_deadline, 
             name='edit_firm_deadline'),
+    url(r'edit-firm-remind-date/$', views.edit_firm_remind_date, 
+            name='edit_firm_remind_date'),
 )
