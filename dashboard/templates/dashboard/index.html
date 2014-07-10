@@ -18,6 +18,7 @@
 
 {% for firm in firms_list %}
   
+  <!--Firm/group line 1: name, application status, deadline, reminder date-->
   <a href="#" class="firm-name" data-pk="{{ firm.id }}">{{ firm }}</a>
   
   <a href="#" class="firm-status" data-pk="{{ firm.id }}">
@@ -29,12 +30,17 @@
   Remind on <a href="#" class="firm-remind-date" data-pk="{{ firm.id }}">
       {{ firm.reminder_date|date:"M j, Y" }}</a><br>
   
-  For contacts in this firm/group, remind every
-      {{ firm.reminder_recurrence_number}}
-
+  <!--Firm/group line 2: set default reminder time for the contacts in this 
+      firm/group-->
+  For contacts in this firm/group, remind after <a href="#" 
+      class="firm-recurring-number" data-pk="{{ firm.id }}">
+      {{ firm.reminder_recurrence_number}}</a>
   <a href="#" class="firm-recurring-type" data-pk="{{ firm.id }}">
-      {{ firm.get_reminder_recurrence_type_display }}</a>     
+      {{ firm.get_reminder_recurrence_type_display }}</a> since the last
+      contact by default.
   
+  <!--Contact info: name, position, the date of the last contact, reminder
+      settings-->
   {% for contact in contacts_dict|access_dict_value:firm %}
     <p>
       <a href="#" class="contact-name" data-pk="{{ contact.id }}">{{ contact }}
@@ -43,10 +49,20 @@
       <a href="#" class="contact-position" data-pk="{{ contact.id }}">
           {{ contact.position }}</a>
 
-      Last contacted on {{ contact.last_contact_date }}
-      Remind every {{ contact.reminder_recurrence_number}}
-      {{ contact.get_reminder_recurrence_type_display }}
-      Remind on {{ contact.reminder_date }}
+      Last contacted on <a href="#" class="contact-last-contact"
+          data-pk="{{ contact.id }}">
+          {{ contact.last_contact_date|date:"M j, Y" }}</a>
+
+      Remind after <a href="#" class="contact-recurring-number"
+          data-pk="{{ contact.id }}">{{ contact.reminder_recurrence_number}}
+          </a>
+      <a href="#" class="contact-recurring-type" data-pk="{{ contact.id }}">
+          {{ contact.get_reminder_recurrence_type_display }}</a> since the last
+          contact or
+
+      remind on <a href="#" class="contact-remind-date"
+          data-pk="{{ contact.id }}">{{ contact.reminder_date|date:"M j, Y" }}
+          </a>
     </p>
   {% endfor %}
 

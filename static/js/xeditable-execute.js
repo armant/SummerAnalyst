@@ -27,6 +27,22 @@ $(document).ready(function() {
     	},
     });
 
+    $('.firm-recurring-number').editable({
+    	type: 'text',
+    	url: 'edit-firm-recurring-number/',
+    	params: {
+    		csrfmiddlewaretoken: CSRF,
+    	},
+    });
+
+    $('.contact-recurring-number').editable({
+    	type: 'text',
+    	url: 'edit-contact-recurring-number/',
+    	params: {
+    		csrfmiddlewaretoken: CSRF,
+    	},
+    });
+
 	//drop-downs    
     $('.firm-status').editable({
     	type: 'select',
@@ -53,23 +69,71 @@ $(document).ready(function() {
     	source: [' ', 'day(s)', 'week(s)', 'month(s)', 'year(s)'],
     });
 
+    $('.contact-recurring-type').editable({
+    	type: 'select',
+    	url: 'edit-contact-recurring-type/',
+    	params: {
+    		csrfmiddlewaretoken: CSRF,
+    	},
+    	showbuttons: false,
+    	source: [' ', 'day(s)', 'week(s)', 'month(s)', 'year(s)'],
+    });
+
     //datepickers
     $('.firm-deadline').editable({
+    	mode: 'popup',
     	type: 'date',
     	url: 'edit-firm-deadline/',
     	params: {
     		csrfmiddlewaretoken: CSRF
     	},
     	viewformat: 'M d, yyyy',
+    	datepicker: {
+            todayBtn: 'linked',
+            todayHighlight: true,
+        } ,
     });
 
     $('.firm-remind-date').editable({
+    	mode: 'popup',
     	type: 'date',
     	url: 'edit-firm-remind-date/',
     	params: {
     		csrfmiddlewaretoken: CSRF
     	},
     	viewformat: 'M d, yyyy',
+    	datepicker: {
+            todayBtn: 'linked',
+            todayHighlight: true,
+        } ,
+    });
+
+    $('.contact-last-contact').editable({
+    	mode: 'popup',
+    	type: 'date',
+    	url: 'edit-contact-last-contact/',
+    	params: {
+    		csrfmiddlewaretoken: CSRF
+    	},
+    	viewformat: 'M d, yyyy',
+    	datepicker: {
+            todayBtn: 'linked',
+            todayHighlight: true,
+        } ,
+    });
+
+    $('.contact-remind-date').editable({
+    	mode: 'popup',
+    	type: 'date',
+    	url: 'edit-contact-remind-date/',
+    	params: {
+    		csrfmiddlewaretoken: CSRF
+    	},
+    	viewformat: 'M d, yyyy',
+    	datepicker: {
+            todayBtn: 'linked',
+            todayHighlight: true,
+        } ,
     });
 
 });

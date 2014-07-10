@@ -40,7 +40,8 @@ class Contact(models.Model):
     reminder_recurrence_number = models.PositiveSmallIntegerField(blank=True,
             null=True)
     PERIODS = (
-        ('D', 'day(s)'), ('W', 'week(s)'), ('M', 'month(s)'), ('Y', 'year(s)')
+        ('B', ' '), ('D', 'day(s)'), ('W', 'week(s)'), ('M', 'month(s)'), 
+        ('Y', 'year(s)')
     )
     reminder_recurrence_type = models.CharField(max_length=8, choices=PERIODS,
             blank=True)

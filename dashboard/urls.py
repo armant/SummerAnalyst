@@ -4,21 +4,38 @@ import views
 
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'SummerAnalyst.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
     url(r'^$', views.index, name='index'),
+    
+    # Firm/group line 1: name, application status, deadline, reminder
+    # date
     url(r'edit-firm-name/$', views.edit_firm_name, name='edit_firm_name'),
-    url(r'edit-contact-name/$', views.edit_contact_name,
-            name='edit_contact_name'),
-    url(r'edit-contact-position/$', views.edit_contact_position,
-            name='edit_contact_position'),
     url(r'edit-firm-status/$', views.edit_firm_status, 
             name='edit_firm_status'),
-    url(r'edit-firm-recurring-type/$', views.edit_firm_recurring_type,
-            name='edit_firm_recurring_type'),
     url(r'edit-firm-deadline/$', views.edit_firm_deadline, 
             name='edit_firm_deadline'),
     url(r'edit-firm-remind-date/$', views.edit_firm_remind_date, 
             name='edit_firm_remind_date'),
+
+    # Firm/group - line 2: set default reminder time for the contacts in
+    # this firm/group
+    url(r'edit-firm-recurring-number/$', views.edit_firm_recurring_number,
+            name='edit_firm_recurring_number'),
+    url(r'edit-firm-recurring-type/$', views.edit_firm_recurring_type,
+            name='edit_firm_recurring_type'),
+
+    # Contact info: name, position, the date of the last contact,
+    # reminder settings
+    url(r'edit-contact-name/$', views.edit_contact_name,
+            name='edit_contact_name'),
+    url(r'edit-contact-position/$', views.edit_contact_position,
+            name='edit_contact_position'),
+    url(r'edit-contact-last-contact/$', views.edit_contact_last_contact, 
+            name='edit_contact_last_contact'),
+    url(r'edit-contact-recurring-number/$', 
+            views.edit_contact_recurring_number,
+            name='edit_contact_recurring_number'),
+    url(r'edit-contact-recurring-type/$', views.edit_contact_recurring_type,
+            name='edit_contact_recurring_type'),
+    url(r'edit-contact-remind-date/$', views.edit_contact_remind_date, 
+            name='edit_contact_remind_date'),
 )
