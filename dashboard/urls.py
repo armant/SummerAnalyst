@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.auth.decorators import login_required
 
 import views
 
@@ -38,4 +39,15 @@ urlpatterns = patterns('',
             name='edit_contact_recurring_type'),
     url(r'edit-contact-remind-date/$', views.edit_contact_remind_date, 
             name='edit_contact_remind_date'),
+    
+    # Periodic contact reminder and specific date contact reminder:
+    # nullify one when the other one is clicked on.
+    url(r'nullify-contact-remind-date/$', views.nullify_contact_remind_date, 
+            name='nullify_contact_remind_date'),
+    url(r'nullify-contact-remind-periodic/$',
+            views.nullify_contact_remind_periodic,
+            name='nullify_contact_remind_periodic'),
+
+    # New firm
+    url(r'^new-firm/$', login_required(views.NewFirmView.as_view(), login_url='/login/'), name='NewFirmView'),
 )

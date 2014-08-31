@@ -1,10 +1,18 @@
-<!-- Bootstrap & jQuery -->
-<link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" 
-    rel="stylesheet">
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script> 
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+<!-- Bootstrap -->
 <script
     src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js">
     </script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" 
+    rel="stylesheet">
+
+<!-- AngularJS -->
+<script
+    src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.16/angular.min.js">
+    </script>
+
 <!-- X-editable -->
 <link 
     href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap-editable/css/bootstrap-editable.css" 
@@ -13,12 +21,14 @@
     src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap-editable/js/bootstrap-editable.min.js">
     </script>
 
+
 {% load dashboard_extras %}
 
 
 {% for firm in firms_list %}
   
-  <!--Firm/group line 1: name, application status, deadline, reminder date-->
+  <!-- Firm/group line 1: name, application status, deadline, reminder
+       date -->
   <a href="#" class="firm-name" data-pk="{{ firm.id }}">{{ firm }}</a>
   
   <a href="#" class="firm-status" data-pk="{{ firm.id }}">
@@ -30,8 +40,8 @@
   Remind on <a href="#" class="firm-remind-date" data-pk="{{ firm.id }}">
       {{ firm.reminder_date|date:"M j, Y" }}</a><br>
   
-  <!--Firm/group line 2: set default reminder time for the contacts in this 
-      firm/group-->
+  <!-- Firm/group line 2: set default reminder time for the contacts in
+       this firm/group -->
   For contacts in this firm/group, remind after <a href="#" 
       class="firm-recurring-number" data-pk="{{ firm.id }}">
       {{ firm.reminder_recurrence_number}}</a>
@@ -39,8 +49,8 @@
       {{ firm.get_reminder_recurrence_type_display }}</a> since the last
       contact by default.
   
-  <!--Contact info: name, position, the date of the last contact, reminder
-      settings-->
+  <!-- Contact info: name, position, the date of the last contact,
+       reminder settings -->
   {% for contact in contacts_dict|access_dict_value:firm %}
     <p>
       <a href="#" class="contact-name" data-pk="{{ contact.id }}">{{ contact }}
@@ -54,19 +64,57 @@
           {{ contact.last_contact_date|date:"M j, Y" }}</a>
 
       Remind after <a href="#" class="contact-recurring-number"
-          data-pk="{{ contact.id }}">{{ contact.reminder_recurrence_number}}
-          </a>
-      <a href="#" class="contact-recurring-type" data-pk="{{ contact.id }}">
+          id="{{ contact.id }}-recurring-number" data-pk="{{ contact.id }}">
+          {{ contact.reminder_recurrence_number}}</a>
+      <a href="#" class="contact-recurring-type"
+          id="{{ contact.id }}-recurring-type" data-pk="{{ contact.id }}">
           {{ contact.get_reminder_recurrence_type_display }}</a> since the last
           contact or
 
       remind on <a href="#" class="contact-remind-date"
-          data-pk="{{ contact.id }}">{{ contact.reminder_date|date:"M j, Y" }}
-          </a>
+          id="{{ contact.id }}-remind-date" data-pk="{{ contact.id }}">
+          {{ contact.reminder_date|date:"M j, Y" }}</a>
     </p>
   {% endfor %}
 
 {% endfor %}
 
+<form name="//firm_form.name//">{% csrf_token %}
+  {{ firm_form.as_p }}
+  <button ng-click="submit()">Add</button>
+</form>
+
+<!-- Activate X-editable -->
 <script>var CSRF = '{{ csrf_token }}'</script>
 <script src="{{ STATIC_URL }}js/xeditable-execute.js"></script>
+
+<!-- Activate AngularJS -->
+<script src="{{ STATIC_URL }}js/ng.js"></script>
+
+
+<!-- Create a new firm:
+     Firm/group line 1: name, application status, deadline, reminder
+     date
+
+<a href="#" class="new-firm" id="new-firm-name" data-type="text" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"></a>
+  
+<a href="#" class="new-firm" id="new-firm-status" data-type="select" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"></a>
+  
+Deadline: <a href="#" class="new-firm" id="new-firm-deadline"
+    data-type="date" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"></a>
+  
+Remind on <a href="#" class="new-firm" id="new-firm-remind-date"
+    data-type="date" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"></a><br>
+
+     Create a new firm:
+     Firm/group line 2: set default reminder time for the contacts in
+     this firm/group
+For contacts in this firm/group, remind after <a href="#" 
+    class="new-firm" id="new-firm-recurring-number" data-type="text" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}"></a>
+  
+<a href="#" class="new-firm" id="new-firm-recurring-type" data-type="select" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+    </a> since the last contact by default.
+
+<button id="save-btn" class="btn btn-primary" data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">Save</button>
+
+<button id="reset-btn" class="btn pull-right">Reset</button>-->
