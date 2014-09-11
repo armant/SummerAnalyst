@@ -15,10 +15,47 @@ from forms import *
 def index(request):
     firms_list = Firm.objects.filter(user=request.user)
     contacts_dict = {}
+    new_firm = {}
     for firm in firms_list:
         sub_contact_list = Contact.objects.filter(firms=firm)
         contacts_dict[firm] = sub_contact_list
-    context = {'firms_list': firms_list, 'contacts_dict': contacts_dict}
+
+    if request.GET.get('name') and request.GET.get('app_status'):
+        name = request.GET.get('name')
+        app_status = request.GET.get('app_status')
+        deadline = request.GET.get('deadline')
+        reminder_date = request.GET.get('reminder_date')
+        reminder_recurrence_number = request.GET.get('reminder_recurrence_number')
+        reminder_recurrence_type = request.GET.get('reminder_recurrence_type')
+        new_firm = Firm.objects.create(user = request.user, name = name,
+                app_status = app_status, deadline = deadline,
+                reminder_date = reminder_date,
+                reminder_recurrence_number = reminder_recurrence_number,
+                reminder_recurrence_type = reminder_recurrence_type)
+        new_firm.save()
+        return HttpResponseRedirect('/dashboard/')
+
+    if request.GET.get('name') and request.GET.get('position'):
+        name = request.GET.get('name')
+        position = request.GET.get('position')
+        last_contact_date = request.GET.get('last_contact_date')
+        reminder_recurrence_number = request.GET.get('reminder_recurrence_number')
+        reminder_recurrence_type = request.GET.get('reminder_recurrence_type')
+        reminder_date = request.GET.get('reminder_date')
+        parent_firm = request.GET.get('parent_firm')
+        new_contact = Contact.objects.create(name = name, position = position,
+                last_contact_date = last_contact_date,
+                reminder_recurrence_number = reminder_recurrence_number,
+                reminder_recurrence_type = reminder_recurrence_type,
+                reminder_date = reminder_date)
+        new_contact.save()
+        new_contact.firms.add(Firm.objects.get(pk= parent_firm))
+        return HttpResponseRedirect('/dashboard/')
+
+
+    context = {'firms_list': firms_list, 'contacts_dict': contacts_dict, 
+            'firm_form': FirmForm, 'new_firm': new_firm,
+            'contact_form': ContactForm}
     return render(request, 'dashboard/index.html', context)
 
 
@@ -206,6 +243,7 @@ def nullify_contact_remind_periodic(request):
     return HttpResponse('')
 
 
+'''
 class NewFirmView(TemplateView):
     template_name = 'dashboard/index.html'
 
@@ -213,6 +251,7 @@ class NewFirmView(TemplateView):
         context = super(NewFirmView, self).get_context_data(**kwargs)
         context.update(firm_form = NgSlugForm(scope_prefix='firm_model'))
         return context
+'''
 
 
 

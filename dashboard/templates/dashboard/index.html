@@ -8,10 +8,6 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" 
     rel="stylesheet">
 
-<!-- AngularJS -->
-<script
-    src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.16/angular.min.js">
-    </script>
 
 <!-- X-editable -->
 <link 
@@ -22,6 +18,12 @@
     </script>
 
 
+<!-- custom stylesheet -->
+<link 
+    href="{{ STATIC_URL }}css/styles.css" 
+    rel="stylesheet"/>
+
+
 {% load dashboard_extras %}
 
 
@@ -29,7 +31,7 @@
   
   <!-- Firm/group line 1: name, application status, deadline, reminder
        date -->
-  <a href="#" class="firm-name" data-pk="{{ firm.id }}">{{ firm }}</a>
+  <a href="#" class="firm-name" data-pk="{{ firm.id }}">{{ firm.name }}</a>
   
   <a href="#" class="firm-status" data-pk="{{ firm.id }}">
       {{ firm.get_app_status_display }}</a>
@@ -77,19 +79,46 @@
     </p>
   {% endfor %}
 
+  <form method="GET">{% csrf_token %}
+    {{ contact_form }}
+    <input type="hidden" name="parent_firm" value="{{ firm.pk }}" />
+    <button>Add</button>
+  </form>
+
 {% endfor %}
 
-<form name="//firm_form.name//">{% csrf_token %}
+{% if new_firm %}
+  <!-- Firm/group line 1: name, application status, deadline, reminder
+       date -->
+  <a href="#" class="firm-name" data-pk="{{ new_firm.id }}">{{ new_firm.name }}</a>
+  
+  <a href="#" class="firm-status" data-pk="{{ new_firm.id }}">
+      {{ new_firm.get_app_status_display }}</a>
+
+  Deadline: <a href="#" class="firm-deadline" data-pk="{{ new_firm.id }}">
+      {{ new_firm.deadline|date:"M j, Y" }}</a>
+
+  Remind on <a href="#" class="firm-remind-date" data-pk="{{ new_firm.id }}">
+      {{ new_firm.reminder_date|date:"M j, Y" }}</a><br>
+  
+  <!-- Firm/group line 2: set default reminder time for the contacts in
+       this firm/group -->
+  For contacts in this firm/group, remind after <a href="#" 
+      class="firm-recurring-number" data-pk="{{ new_firm.id }}">
+      {{ new_firm.reminder_recurrence_number}}</a>
+  <a href="#" class="firm-recurring-type" data-pk="{{ new_firm.id }}">
+      {{ new_firm.get_reminder_recurrence_type_display }}</a> since the last
+      contact by default.
+{% endif %}
+
+<form method="GET">{% csrf_token %}
   {{ firm_form.as_p }}
-  <button ng-click="submit()">Add</button>
+  <button>Add</button>
 </form>
 
 <!-- Activate X-editable -->
 <script>var CSRF = '{{ csrf_token }}'</script>
 <script src="{{ STATIC_URL }}js/xeditable-execute.js"></script>
-
-<!-- Activate AngularJS -->
-<script src="{{ STATIC_URL }}js/ng.js"></script>
 
 
 <!-- Create a new firm:

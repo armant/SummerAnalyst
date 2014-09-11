@@ -49,5 +49,5 @@ urlpatterns = patterns('',
             name='nullify_contact_remind_periodic'),
 
     # New firm
-    url(r'^new-firm/$', login_required(views.NewFirmView.as_view(), login_url='/login/'), name='NewFirmView'),
+    #url(r'^new-firm/$', login_required(views.NewFirmView.as_view(), login_url='/login/'), name='NewFirmView'),
 )
